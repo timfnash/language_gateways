@@ -1,121 +1,203 @@
 # Language Gateways Social Media Templates
 
-Three ready-to-use HTML templates for creating professional social media posts on-brand.
+Professional, brand-aligned templates for creating striking social posts. Fully customizable with Jost font, independent colour controls, and built-in watermarks.
 
-## Templates
+## What's New (v2)
 
-1. **Quote / Insight** (`template-quote.html`) — Full-bleed coloured background with white text
-   - Best for: Wisdom, abstract ideas, reflective moments
-   - Brand colours included: Purple, Magenta, Gold, Teal, Blue
+✅ **Jost typeface** loaded from Google Fonts  
+✅ **Independent text + background colour pickers**  
+✅ **Extended colour palette** — all brand colours plus white & off-white  
+✅ **Language Gateways logo** (switchable versions: Dark, Vibrant, Light)  
+✅ **#languagegateways watermark** (bottom right, automatic)  
+✅ **Rose watermark** (subtle, bottom left — optional)  
+✅ **Better visual design** with enhanced hierarchy & spacing  
 
-2. **Concept + Visual** (`template-concept.html`) — Two-column layout with coloured accent stripe
-   - Best for: Conceptual posts, titled ideas, supporting text
-   - Works great for: The rose (perspectives), the passport (identity), the three axes
+## Three Templates
 
-3. **Statistic / Data** (`template-stat.html`) — Large number in gold with descriptive text
-   - Best for: "7000 languages," "48 languages," "200 languages"
-   - Gold accent number pops against any background
+### 1. Quote / Insight
+- Full-bleed background with central text
+- Logo top-left, watermark bottom-right
+- Best for: Wisdom quotes, reflections, abstract insights
+- Example: *"If you don't know other languages, you don't know your own."*
+
+### 2. Concept + Visual
+- Coloured stripe (18% width) on left, white content on right
+- Logo top-right, watermark bottom-right
+- Best for: Titled ideas with supporting text
+- Example: *"The Rose: 12 Languages"* + *"Same flower, twelve different ways of seeing it."*
+
+### 3. Statistic / Data
+- Large gold number, supporting text below
+- Logo top-left, watermark bottom-right, rose watermark bottom-left
+- Best for: "7,000 languages," "48 languages," "200+ languages"
 
 ---
 
-## Setup on GitHub Pages
+## GitHub Setup
 
-### Step 1: Create a new repository
-On GitHub, create a new public repo. Name it anything—e.g., `social-templates` or `language-gateways-posts`.
+### 1. Directory Structure
+```
+language_gateways/
+├── template-quote.html
+├── template-concept.html
+├── template-stat.html
+├── README.md
+└── images/
+    ├── LG-Words-Dark.png
+    ├── LG-Words-Vibrant.png
+    ├── LG-Words-Light.png
+    └── rose.png
+```
 
-### Step 2: Add the files
-1. Create a folder named `templates` in the repo (optional but recommended)
-2. Upload the three HTML files:
-   - `template-quote.html`
-   - `template-concept.html`
-   - `template-stat.html`
+### 2. Add Your Files to GitHub
 
-### Step 3: Enable GitHub Pages
-1. Go to Settings → Pages
-2. Under "Build and deployment," select `main` branch and `/root` (or `/templates` if you put them in a folder)
-3. Save
+**Upload the logo images:**
+1. Go to your repo: https://github.com/timfnash/language_gateways
+2. Click **Add file → Create new folder**
+3. Type `images` (folder name)
+4. Inside `/images`, click **Add file → Upload files**
+5. Upload:
+   - `LG-Words-Dark.png`
+   - `LG-Words-Vibrant.png`
+   - `LG-Words-Light.png`
+   - `rose.png` (when you have it)
 
-Your templates will be live at:
-- `https://<your-username>.github.io/social-templates/template-quote.html`
-- `https://<your-username>.github.io/social-templates/template-concept.html`
-- `https://<your-username>.github.io/social-templates/template-stat.html`
+**Upload the template HTML files:**
+1. In repo root, click **Add file → Upload files**
+2. Upload the three HTML files (or replace the old ones if you already have them)
+
+### 3. Enable GitHub Pages (if not already done)
+
+1. Settings → Pages
+2. Branch: `main`
+3. Root folder: `/ (root)`
+4. Save
+
+### 4. Access Your Templates
+
+Once live, open these URLs:
+- **Quote:** `https://timfnash.github.io/language_gateways/template-quote.html`
+- **Concept:** `https://timfnash.github.io/language_gateways/template-concept.html`
+- **Statistic:** `https://timfnash.github.io/language_gateways/template-stat.html`
+
+**Bookmark all three!**
 
 ---
 
 ## How to Use
 
-1. Open any template URL in your browser
-2. Edit the text directly in the input fields
-3. Click a colour button to change the background/accent
-4. Preview updates in real-time on the right
-5. **Screenshot the preview** (Cmd+Shift+4 on Mac, Windows+Shift+S on Windows)
-6. Upload the screenshot to your social platform
+1. **Open any template URL in your browser**
+2. **Type or paste your content** into the input fields
+3. **Pick colours** from the palette (independent background/text control)
+4. **Choose logo version** from the dropdown
+5. **Watch the preview update in real-time** on the right
+6. **Screenshot the preview** (Cmd+Shift+4 on Mac, Windows+Shift+S on Windows)
+7. **Upload to Instagram, LinkedIn, Facebook, TikTok**
 
-**Recommended sizes:**
-- Instagram / Facebook / TikTok: 1080×1080px (square)
-- LinkedIn feed: 1200×628px (landscape)
-
----
-
-## Brand Colours
-
-Your palette is built in:
-- **Deep Purple:** #49016F (primary)
-- **Magenta:** #DE0183
-- **Antique Gold:** #C3A14E (accent on all templates)
-- **Teal:** #1D9E75
-- **Blue:** #185FA5
-
-All templates use system fonts for fast loading and cross-platform consistency.
+### Recommended Sizes
+- **Instagram, Facebook, TikTok:** 1080×1080px (square)
+- **LinkedIn feed:** 1200×628px (copy the square, stretch to landscape)
+- **Stories/Reels:** 1080×1920px (vertical)
 
 ---
 
-## Tips
+## Brand Palette
 
-- **Quote template:** Keep to 1–2 sentences. Line breaks are preserved.
-- **Concept template:** Pair a punchy heading (3–5 words) with supporting text.
-- **Stat template:** Use round numbers (7,000, not 7,234) for impact.
-- **Hashtag:** Always include **#languagegateways** in your post caption
-- **Link to TEDx:** Include the talk URL in your caption so followers can watch the full video
+All colours are built in and available on every template:
+
+| Colour | Hex | Use |
+|--------|-----|-----|
+| Deep Purple | #49016F | Primary background |
+| Magenta | #DE0183 | Vibrant accent |
+| Antique Gold | #C3A14E | Accent / highlights / number (stats) |
+| Teal | #1D9E75 | Secondary accent |
+| Blue | #185FA5 | Secondary accent |
+| White | #FFFFFF | High-contrast text & backgrounds |
+| Off-White | #FBF8F2 | Soft background |
+| Dark Gray | #2C2C2A | Primary text |
 
 ---
 
-## Examples (from the 20 posts)
+## Tips for Each Template
 
 ### Quote Template
-*Text:* "Goethe said it 200 years ago. If you don't know other languages, you don't know your own."
-*Colour:* Deep Purple
+- Keep to **1–2 sentences**
+- Line breaks are preserved
+- Gold number (stats template) always pops against dark backgrounds
+- Works best with white or gold text on coloured backgrounds
 
 ### Concept Template
-*Heading:* "The Rose: 12 Languages"
-*Text:* "Same flower, twelve different ways of seeing it. What perspectives are you missing?"
-*Colour:* Magenta
+- **3–5 words** for the heading (punchy)
+- **1–2 lines** for supporting text
+- Coloured stripe creates asymmetric visual interest
+- Best for titled concepts with a call-to-action or insight
 
-### Stat Template
-*Number:* "7,000"
-*Text:* "Languages. 7,000 ships laden with worlds."
-*Colour:* Deep Purple
-
----
-
-## Customisation
-
-If you want to edit colours, fonts, or layout, edit the HTML in a text editor:
-- Colours are in the CSS section at the top (`<style>`)
-- Font is `system-ui` (change to `'Jost', system-ui` if you add Jost from a CDN)
-- Sizes and spacing are in `rem` units (easy to scale)
+### Statistic Template
+- Use **round numbers** (7,000 not 7,234) for impact
+- Gold number is automatic and always visible
+- Text colour should contrast with background
+- Perfect for metrics, milestones, or quick facts
 
 ---
 
-## Questions?
+## Hashtag & Attribution
 
-Share the live links with collaborators—they can edit in real-time and see previews before posting.
+Always include in your post caption:
+- **#languagegateways** (appears on every image automatically)
+- Link to the relevant TEDx talk if referencing a talk
+- Mention @timfnash if relevant (your LinkedIn handle)
 
-For batch generation: create one post per week using a different template type, rotating through your 20 post ideas.
+Example caption:
+```
+"Goethe said it 200 years ago. If you don't know other languages, 
+you don't know your own." — Discover why language is a gateway 
+to thinking differently.
 
-Good luck! 🚀
+Watch the full talk: [TEDxTrafford link]
+
+#languagegateways
+```
 
 ---
 
-**Created for:** Language Gateways by Tim F Nash
-**Brand thesis:** How the languages you don't speak reveal what you're missing in those you do.
+## Troubleshooting
+
+**Images not loading?**
+- Make sure your `/images` folder is in the repo root
+- Check filenames match exactly: `LG-Words-Dark.png`, etc.
+- PNG files should have transparent backgrounds
+
+**Colours look different in browser vs screenshot?**
+- This is normal. Use the screenshot for final output.
+- Test colours in the preview before screenshotting.
+
+**Font not loading?**
+- Jost is loaded from Google Fonts. Check your internet connection.
+- If offline, the templates will fall back to system fonts (still readable).
+
+---
+
+## Next Steps
+
+1. **Upload the logo images** to `/images/` folder in your repo
+2. **Upload (or replace) the three HTML template files** in the repo root
+3. **Test one template** — open it, edit, screenshot
+4. **Bookmark the three URLs** for quick access
+5. **Start creating posts!** Use one template per week, rotating through your 20 post ideas
+
+Once you have the rose watermark, upload it as `images/rose.png` and it'll appear automatically on Quote and Statistic templates.
+
+---
+
+## Brand Foundation
+
+**Logo:** Language Gateways (Dark Purple primary)  
+**Tagline:** "How the languages you don't speak reveal what you're missing in those you do."  
+**Thesis:** Language is a gateway to thinking differently, not just a tool for communication.  
+**Audience:** Chief People Officers, Heads of Learning & Development, Educators, Thought Leaders
+
+---
+
+**Created for:** Tim F Nash | Language Gateways  
+**Templates by:** Claude (Anthropic)  
+**Last updated:** June 2026

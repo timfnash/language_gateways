@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Language Gateways | Concept Template</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -11,15 +12,15 @@
       box-sizing: border-box;
     }
     body {
-      font-family: system-ui, -apple-system, sans-serif;
+      font-family: 'Jost', system-ui, -apple-system, sans-serif;
       background: #f5f5f5;
       padding: 2rem;
     }
     .container {
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1.2fr;
       gap: 2rem;
     }
     .controls {
@@ -30,7 +31,8 @@
       height: fit-content;
     }
     .controls h1 {
-      font-size: 24px;
+      font-size: 28px;
+      font-weight: 700;
       margin-bottom: 1.5rem;
       color: #49016F;
     }
@@ -47,15 +49,15 @@
     input[type="text"],
     textarea {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       border: 1px solid #ddd;
-      border-radius: 6px;
-      font-family: inherit;
-      font-size: 14px;
+      border-radius: 8px;
+      font-family: 'Jost', inherit;
+      font-size: 15px;
       resize: vertical;
     }
     input[type="text"] {
-      height: 40px;
+      height: 44px;
     }
     textarea {
       min-height: 80px;
@@ -66,21 +68,48 @@
       border-color: #49016F;
       box-shadow: 0 0 0 3px rgba(73, 1, 111, 0.1);
     }
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: 'Jost', inherit;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    select:focus {
+      outline: none;
+      border-color: #49016F;
+      box-shadow: 0 0 0 3px rgba(73, 1, 111, 0.1);
+    }
+    .color-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .color-picker-group {
+      display: flex;
+      flex-direction: column;
+    }
+    .color-picker-group label {
+      margin-bottom: 0.5rem;
+    }
     .color-palette {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
     }
     .color-btn {
-      width: 50px;
-      height: 50px;
-      border-radius: 8px;
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
       border: 3px solid transparent;
       cursor: pointer;
       transition: all 0.2s;
     }
     .color-btn:hover {
-      transform: scale(1.05);
+      transform: scale(1.1);
     }
     .color-btn.active {
       border-color: #333;
@@ -89,7 +118,7 @@
     .help-text {
       font-size: 12px;
       color: #999;
-      margin-top: 0.5rem;
+      margin-top: 0.4rem;
     }
     .preview-container {
       display: flex;
@@ -100,10 +129,11 @@
       aspect-ratio: 1;
       border-radius: 12px;
       display: grid;
-      grid-template-columns: 220px 1fr;
+      grid-template-columns: 200px 1fr;
       overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
       background: white;
+      position: relative;
     }
     .preview-sidebar {
       display: flex;
@@ -112,6 +142,17 @@
       color: white;
       font-weight: 600;
       padding: 2rem;
+      position: relative;
+    }
+    .preview-sidebar::after {
+      content: '';
+      position: absolute;
+      right: -8px;
+      top: 0;
+      bottom: 0;
+      width: 16px;
+      background: inherit;
+      clip-path: polygon(0 0, 100% 50%, 0 100%);
     }
     .preview-content {
       display: flex;
@@ -120,24 +161,46 @@
       justify-content: center;
       padding: 2rem;
       text-align: center;
+      position: relative;
     }
     .preview-heading {
-      font-size: 2.5rem;
-      font-weight: bold;
-      color: #2c2c2a;
+      font-size: 2.4rem;
+      font-weight: 700;
       margin-bottom: 1rem;
-      line-height: 1.3;
+      line-height: 1.2;
     }
     .preview-text {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       font-weight: 500;
-      color: #888780;
       line-height: 1.4;
     }
+    .preview-logo {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      height: 50px;
+      max-width: 180px;
+      object-fit: contain;
+    }
+    .preview-watermark {
+      position: absolute;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      opacity: 0.6;
+      letter-spacing: 1px;
+    }
+    .button-group {
+      display: flex;
+      gap: 10px;
+    }
     button {
-      padding: 10px;
+      flex: 1;
+      padding: 12px;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
+      font-family: 'Jost', inherit;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
@@ -157,20 +220,16 @@
     .btn-secondary:hover {
       background: #e0e0e0;
     }
-    .button-group {
-      display: flex;
-      gap: 10px;
-    }
     .info-box {
       background: #f9f9f9;
       border-left: 4px solid #49016F;
       padding: 1rem;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 13px;
       color: #555;
       margin-top: 1.5rem;
     }
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
       .container {
         grid-template-columns: 1fr;
       }
@@ -197,75 +256,116 @@
 
       <div class="control-group">
         <label>Supporting text</label>
-        <textarea id="conceptText" placeholder="Enter supporting text...">Same flower, twelve different ways of seeing it. What perspectives are you missing?</textarea>
+        <textarea id="conceptText">Same flower, twelve different ways of seeing it. What perspectives are you missing?</textarea>
         <div class="help-text">1–2 sentences. Keep it concise.</div>
       </div>
 
-      <div class="control-group">
-        <label>Accent colour (left stripe)</label>
-        <div class="color-palette">
-          <button class="color-btn active" data-color="#49016F" style="background: #49016F;" title="Deep Purple"></button>
-          <button class="color-btn" data-color="#DE0183" style="background: #DE0183;" title="Magenta"></button>
-          <button class="color-btn" data-color="#C3A14E" style="background: #C3A14E;" title="Antique Gold"></button>
-          <button class="color-btn" data-color="#1D9E75" style="background: #1D9E75;" title="Teal"></button>
-          <button class="color-btn" data-color="#185FA5" style="background: #185FA5;" title="Blue"></button>
+      <div class="color-row">
+        <div class="color-picker-group">
+          <label>Accent stripe colour</label>
+          <div class="color-palette">
+            <button class="color-btn active" data-color="#49016F" data-type="accent" style="background: #49016F;" title="Deep Purple"></button>
+            <button class="color-btn" data-color="#DE0183" data-type="accent" style="background: #DE0183;" title="Magenta"></button>
+            <button class="color-btn" data-color="#C3A14E" data-type="accent" style="background: #C3A14E;" title="Gold"></button>
+            <button class="color-btn" data-color="#1D9E75" data-type="accent" style="background: #1D9E75;" title="Teal"></button>
+            <button class="color-btn" data-color="#185FA5" data-type="accent" style="background: #185FA5;" title="Blue"></button>
+          </div>
+        </div>
+
+        <div class="color-picker-group">
+          <label>Text colour</label>
+          <div class="color-palette">
+            <button class="color-btn active" data-color="#2C2C2A" data-type="text" style="background: #2C2C2A;" title="Dark Gray"></button>
+            <button class="color-btn" data-color="#49016F" data-type="text" style="background: #49016F;" title="Deep Purple"></button>
+            <button class="color-btn" data-color="#DE0183" data-type="text" style="background: #DE0183;" title="Magenta"></button>
+            <button class="color-btn" data-color="#1D9E75" data-type="text" style="background: #1D9E75;" title="Teal"></button>
+            <button class="color-btn" data-color="#185FA5" data-type="text" style="background: #185FA5;" title="Blue"></button>
+            <button class="color-btn" data-color="#FFFFFF" data-type="text" style="background: #FFFFFF; border: 1px solid #ddd;" title="White"></button>
+          </div>
         </div>
       </div>
 
+      <div class="control-group">
+        <label>Logo version</label>
+        <select id="logoSelect">
+          <option value="Dark">Dark Purple (primary)</option>
+          <option value="Vibrant">Vibrant Magenta</option>
+          <option value="Light">Light (off-white bg)</option>
+        </select>
+      </div>
+
       <div class="info-box">
-        <strong>💡 Tip:</strong> This template pairs a visual concept (the coloured stripe) with your message. Works great for the rose, the passport, the three identity axes.
+        <strong>💡 Tip:</strong> The coloured stripe creates visual interest. Works great for conceptual ideas with supporting text.
       </div>
 
       <div class="button-group" style="margin-top: 1.5rem;">
         <button class="btn-secondary" onclick="copyToClipboard()">📋 Copy URL</button>
-        <button class="btn-primary" onclick="downloadAsImage()">⬇️ Download</button>
+        <button class="btn-primary" onclick="downloadAsImage()">⬇️ Screenshot</button>
       </div>
     </div>
 
     <div class="preview-container">
       <div class="preview" id="preview">
-        <div class="preview-sidebar"></div>
+        <div class="preview-sidebar" id="previewSidebar"></div>
         <div class="preview-content">
-          <div class="preview-heading"></div>
-          <div class="preview-text"></div>
+          <img class="preview-logo" id="previewLogo" src="images/LG-Words-Dark.png" alt="Language Gateways">
+          <div class="preview-heading" id="previewHeading"></div>
+          <div class="preview-text" id="previewText"></div>
+          <div class="preview-watermark">#languagegateways</div>
         </div>
       </div>
-      <div style="background: white; padding: 1rem; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-        <p style="font-size: 13px; color: #666; margin: 0;">
-          <strong>Format:</strong> 1080×1080px (Instagram, Facebook)<br>
-          <strong>Layout:</strong> Coloured stripe (20% width) + clean white content area<br>
-          <strong>Posted by:</strong> Language Gateways
-        </p>
+      <div style="background: white; padding: 1rem; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); font-size: 13px; color: #666;">
+        <strong>Format:</strong> 1080×1080px (Instagram, Facebook)<br>
+        <strong>Layout:</strong> Coloured stripe (18% width) + clean white content
       </div>
     </div>
   </div>
 
   <script>
-    let currentColor = '#49016F';
+    let accentColor = '#49016F';
+    let textColor = '#2C2C2A';
+    let logoVersion = 'Dark';
+    
     const headingInput = document.getElementById('conceptHeading');
     const textInput = document.getElementById('conceptText');
-    const preview = document.getElementById('preview');
-    const sidebar = preview.querySelector('.preview-sidebar');
-    const heading = preview.querySelector('.preview-heading');
-    const text = preview.querySelector('.preview-text');
+    const sidebar = document.getElementById('previewSidebar');
+    const heading = document.getElementById('previewHeading');
+    const text = document.getElementById('previewText');
+    const previewLogo = document.getElementById('previewLogo');
+    const logoSelect = document.getElementById('logoSelect');
     const colorButtons = document.querySelectorAll('.color-btn');
 
     colorButtons.forEach(btn => {
       btn.addEventListener('click', (e) => {
-        colorButtons.forEach(b => b.classList.remove('active'));
-        e.target.classList.add('active');
-        currentColor = e.target.dataset.color;
+        const type = e.target.dataset.type;
+        if (type === 'accent') {
+          document.querySelectorAll('.color-btn[data-type="accent"]').forEach(b => b.classList.remove('active'));
+          e.target.classList.add('active');
+          accentColor = e.target.dataset.color;
+        } else if (type === 'text') {
+          document.querySelectorAll('.color-btn[data-type="text"]').forEach(b => b.classList.remove('active'));
+          e.target.classList.add('active');
+          textColor = e.target.dataset.color;
+        }
         updatePreview();
       });
+    });
+
+    logoSelect.addEventListener('change', (e) => {
+      logoVersion = e.target.value;
+      updatePreview();
     });
 
     headingInput.addEventListener('input', updatePreview);
     textInput.addEventListener('input', updatePreview);
 
     function updatePreview() {
-      sidebar.style.background = currentColor;
+      sidebar.style.background = accentColor;
       heading.textContent = headingInput.value;
+      heading.style.color = textColor;
       text.textContent = textInput.value;
+      text.style.color = textColor;
+      previewLogo.src = `images/LG-Words-${logoVersion}.png`;
     }
 
     function copyToClipboard() {

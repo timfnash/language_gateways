@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Language Gateways | Quote Template</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -11,15 +12,15 @@
       box-sizing: border-box;
     }
     body {
-      font-family: system-ui, -apple-system, sans-serif;
+      font-family: 'Jost', system-ui, -apple-system, sans-serif;
       background: #f5f5f5;
       padding: 2rem;
     }
     .container {
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1.2fr;
       gap: 2rem;
     }
     .controls {
@@ -30,7 +31,8 @@
       height: fit-content;
     }
     .controls h1 {
-      font-size: 24px;
+      font-size: 28px;
+      font-weight: 700;
       margin-bottom: 1.5rem;
       color: #49016F;
     }
@@ -46,11 +48,11 @@
     }
     textarea {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       border: 1px solid #ddd;
-      border-radius: 6px;
-      font-family: inherit;
-      font-size: 14px;
+      border-radius: 8px;
+      font-family: 'Jost', inherit;
+      font-size: 15px;
       min-height: 100px;
       resize: vertical;
     }
@@ -59,21 +61,48 @@
       border-color: #49016F;
       box-shadow: 0 0 0 3px rgba(73, 1, 111, 0.1);
     }
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: 'Jost', inherit;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    select:focus {
+      outline: none;
+      border-color: #49016F;
+      box-shadow: 0 0 0 3px rgba(73, 1, 111, 0.1);
+    }
+    .color-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .color-picker-group {
+      display: flex;
+      flex-direction: column;
+    }
+    .color-picker-group label {
+      margin-bottom: 0.5rem;
+    }
     .color-palette {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
     }
     .color-btn {
-      width: 50px;
-      height: 50px;
-      border-radius: 8px;
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
       border: 3px solid transparent;
       cursor: pointer;
       transition: all 0.2s;
     }
     .color-btn:hover {
-      transform: scale(1.05);
+      transform: scale(1.1);
     }
     .color-btn.active {
       border-color: #333;
@@ -82,7 +111,7 @@
     .help-text {
       font-size: 12px;
       color: #999;
-      margin-top: 0.5rem;
+      margin-top: 0.4rem;
     }
     .preview-container {
       display: flex;
@@ -93,17 +122,46 @@
       aspect-ratio: 1;
       border-radius: 12px;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
       position: relative;
-      font-weight: bold;
-      color: white;
-      text-align: center;
       padding: 3rem;
-      line-height: 1.4;
-      font-size: 3.5rem;
+      text-align: center;
+      line-height: 1.5;
+      font-size: 3.2rem;
+      font-weight: 600;
+    }
+    .preview-logo {
+      position: absolute;
+      top: 2rem;
+      left: 2rem;
+      height: 60px;
+      max-width: 240px;
+      object-fit: contain;
+    }
+    .preview-content {
+      position: relative;
+      z-index: 2;
+    }
+    .preview-watermark {
+      position: absolute;
+      bottom: 2rem;
+      right: 2rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      opacity: 0.8;
+      letter-spacing: 1px;
+    }
+    .preview-rose {
+      position: absolute;
+      bottom: 2rem;
+      left: 2rem;
+      height: 80px;
+      opacity: 0.15;
+      object-fit: contain;
     }
     .button-group {
       display: flex;
@@ -111,9 +169,10 @@
     }
     button {
       flex: 1;
-      padding: 10px;
+      padding: 12px;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
+      font-family: 'Jost', inherit;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
@@ -137,12 +196,12 @@
       background: #f9f9f9;
       border-left: 4px solid #49016F;
       padding: 1rem;
-      border-radius: 6px;
+      border-radius: 8px;
       font-size: 13px;
       color: #555;
       margin-top: 1.5rem;
     }
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
       .container {
         grid-template-columns: 1fr;
       }
@@ -156,65 +215,113 @@
       
       <div class="control-group">
         <label>Your quote or insight</label>
-        <textarea id="quoteText" placeholder="Enter your quote here...">Goethe said it 200 years ago. If you don't know other languages, you don't know your own.</textarea>
-        <div class="help-text">1–2 sentences work best. Line breaks will be preserved.</div>
+        <textarea id="quoteText">Goethe said it 200 years ago. If you don't know other languages, you don't know your own.</textarea>
+        <div class="help-text">1–2 sentences. Line breaks preserved.</div>
+      </div>
+
+      <div class="color-row">
+        <div class="color-picker-group">
+          <label>Background colour</label>
+          <div class="color-palette">
+            <button class="color-btn active" data-color="#49016F" data-type="bg" style="background: #49016F;" title="Deep Purple"></button>
+            <button class="color-btn" data-color="#DE0183" data-type="bg" style="background: #DE0183;" title="Magenta"></button>
+            <button class="color-btn" data-color="#C3A14E" data-type="bg" style="background: #C3A14E;" title="Gold"></button>
+            <button class="color-btn" data-color="#1D9E75" data-type="bg" style="background: #1D9E75;" title="Teal"></button>
+            <button class="color-btn" data-color="#185FA5" data-type="bg" style="background: #185FA5;" title="Blue"></button>
+            <button class="color-btn" data-color="#FFFFFF" data-type="bg" style="background: #FFFFFF; border: 1px solid #ddd;" title="White"></button>
+            <button class="color-btn" data-color="#FBF8F2" data-type="bg" style="background: #FBF8F2; border: 1px solid #ddd;" title="Off-White"></button>
+          </div>
+        </div>
+
+        <div class="color-picker-group">
+          <label>Text colour</label>
+          <div class="color-palette">
+            <button class="color-btn active" data-color="#FFFFFF" data-type="text" style="background: #FFFFFF; border: 1px solid #ddd;" title="White"></button>
+            <button class="color-btn" data-color="#49016F" data-type="text" style="background: #49016F;" title="Deep Purple"></button>
+            <button class="color-btn" data-color="#2C2C2A" data-type="text" style="background: #2C2C2A;" title="Dark Gray"></button>
+            <button class="color-btn" data-color="#DE0183" data-type="text" style="background: #DE0183;" title="Magenta"></button>
+            <button class="color-btn" data-color="#C3A14E" data-type="text" style="background: #C3A14E;" title="Gold"></button>
+            <button class="color-btn" data-color="#FBF8F2" data-type="text" style="background: #FBF8F2; border: 1px solid #ddd;" title="Off-White"></button>
+          </div>
+        </div>
       </div>
 
       <div class="control-group">
-        <label>Background colour</label>
-        <div class="color-palette">
-          <button class="color-btn active" data-color="#49016F" style="background: #49016F;" title="Deep Purple"></button>
-          <button class="color-btn" data-color="#DE0183" style="background: #DE0183;" title="Magenta"></button>
-          <button class="color-btn" data-color="#C3A14E" style="background: #C3A14E;" title="Antique Gold"></button>
-          <button class="color-btn" data-color="#1D9E75" style="background: #1D9E75;" title="Teal"></button>
-          <button class="color-btn" data-color="#185FA5" style="background: #185FA5;" title="Blue"></button>
-        </div>
-        <div class="help-text">Click to change the background colour.</div>
+        <label>Logo version</label>
+        <select id="logoSelect">
+          <option value="dark">Dark Purple (primary)</option>
+          <option value="vibrant">Vibrant Magenta</option>
+          <option value="light">Light (off-white bg)</option>
+        </select>
+        <div class="help-text">Choose which logo version fits your background.</div>
       </div>
 
       <div class="info-box">
-        <strong>💡 Tip:</strong> Screenshot the preview on the right, then upload to Instagram, LinkedIn, or your platform of choice. Recommended size: 1080×1080px (square) or 1200×628px (LinkedIn feed).
+        <strong>💡 Tip:</strong> Screenshot the preview, upload to Instagram/LinkedIn. Size: 1080×1080px (square) or 1200×628px (LinkedIn feed).
       </div>
 
       <div class="button-group" style="margin-top: 1.5rem;">
         <button class="btn-secondary" onclick="copyToClipboard()">📋 Copy URL</button>
-        <button class="btn-primary" onclick="downloadAsImage()">⬇️ Download</button>
+        <button class="btn-primary" onclick="downloadAsImage()">⬇️ Screenshot</button>
       </div>
     </div>
 
     <div class="preview-container">
-      <div class="preview" id="preview"></div>
-      <div style="background: white; padding: 1rem; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-        <p style="font-size: 13px; color: #666; margin: 0;">
-          <strong>Format:</strong> 1080×1080px (Instagram, Facebook, TikTok)<br>
-          <strong>Link:</strong> #languagegateways<br>
-          <strong>Posted by:</strong> Language Gateways
-        </p>
+      <div class="preview" id="preview">
+        <img class="preview-logo" id="previewLogo" src="images/LG-Words-Dark.png" alt="Language Gateways">
+        <div class="preview-content" id="previewContent"></div>
+        <div class="preview-watermark" id="previewWatermark">#languagegateways</div>
+        <img class="preview-rose" id="previewRose" src="images/rose.png" alt="">
+      </div>
+      <div style="background: white; padding: 1rem; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); font-size: 13px; color: #666;">
+        <strong>Format:</strong> 1080×1080px (Instagram, Facebook, TikTok)<br>
+        <strong>Posted by:</strong> Language Gateways
       </div>
     </div>
   </div>
 
   <script>
-    let currentColor = '#49016F';
+    let bgColor = '#49016F';
+    let textColor = '#FFFFFF';
+    let logoVersion = 'dark';
+    
     const quoteInput = document.getElementById('quoteText');
     const preview = document.getElementById('preview');
+    const previewContent = document.getElementById('previewContent');
+    const previewWatermark = document.getElementById('previewWatermark');
+    const previewLogo = document.getElementById('previewLogo');
+    const logoSelect = document.getElementById('logoSelect');
     const colorButtons = document.querySelectorAll('.color-btn');
 
     colorButtons.forEach(btn => {
       btn.addEventListener('click', (e) => {
-        colorButtons.forEach(b => b.classList.remove('active'));
-        e.target.classList.add('active');
-        currentColor = e.target.dataset.color;
+        const type = e.target.dataset.type;
+        if (type === 'bg') {
+          document.querySelectorAll('.color-btn[data-type="bg"]').forEach(b => b.classList.remove('active'));
+          e.target.classList.add('active');
+          bgColor = e.target.dataset.color;
+        } else if (type === 'text') {
+          document.querySelectorAll('.color-btn[data-type="text"]').forEach(b => b.classList.remove('active'));
+          e.target.classList.add('active');
+          textColor = e.target.dataset.color;
+        }
         updatePreview();
       });
+    });
+
+    logoSelect.addEventListener('change', (e) => {
+      logoVersion = e.target.value;
+      updatePreview();
     });
 
     quoteInput.addEventListener('input', updatePreview);
 
     function updatePreview() {
-      const text = quoteInput.value;
-      preview.style.background = currentColor;
-      preview.textContent = text;
+      preview.style.background = bgColor;
+      previewContent.textContent = quoteInput.value;
+      previewContent.style.color = textColor;
+      previewWatermark.style.color = textColor;
+      previewLogo.src = `images/LG-Words-${logoVersion.charAt(0).toUpperCase() + logoVersion.slice(1)}.png`;
     }
 
     function copyToClipboard() {
