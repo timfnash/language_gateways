@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Language Gateways: Social Image Builder</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Jost', system-ui, -apple-system, sans-serif;
+      background: #f5f5f5;
+      padding: 2rem;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 2rem;
+    }
+    .controls {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      height: fit-content;
+    }
+    .controls h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: #49016F;
+    }
+    .control-group {
+      margin-bottom: 1.5rem;
+    }
+    .control-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+    select,
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: 'Jost', inherit;
+      font-size: 15px;
+      resize: vertical;
+    }
+    select {
+      cursor: pointer;
+    }
+    input[type="text"] {
+      height: 44px;
+    }
+    textarea {
+      min-height: 80px;
+    }
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: #49016F;
+      box-shadow: 0 0 0 3px rgba(73, 1, 111, 0.1);
+    }
+    input[type="file"] {
+      padding: 8px;
+    }
+    input[type="range"] {
+      width: 100%;
+      cursor: pointer;
+      height: 6px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: #ddd;
+      border-radius: 3px;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: #49016F;
+      cursor: pointer;
+      border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      background: #49016F;
+      cursor: pointer;
+      border-radius: 50%;
+      border: none;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .size-control {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    .size-control input[type="range"] {
+      flex: 1;
+    }
+    .size-value {
+      min-width: 50px;
+      text-align: right;
+      font-size: 13px;
+      color: #666;
+      font-weight: 600;
+    }
+    .color-palette {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .color-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      border: 3px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .color-btn:hover {
+      transform: scale(1.1);
+    }
+    .color-btn.active {
+      border-color: #333;
+      box-shadow: 0 0 0 2px white, 0 0 0 4px #333;
+    }
+    .help-text {
+      font-size: 12px;
+      color: #999;
+      margin-top: 0.4rem;
+    }
+    .preview-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .preview {
+      width: 1080px;
+      height: 1080px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      margin: 0 auto;
+      max-width: 100%;
+      height: auto;
+      aspect-ratio: 1;
+    }
+    .preview-content {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem;
+      text-align: center;
+    }
+    .preview-quote-text {
+      font-family: 'Jost';
+      font-weight: 600;
+      font-size: clamp(2rem, 8vw, 3.2rem);
+      color: white;
+      line-height: 1.5;
+      margin-bottom: 2rem;
+    }
+    .preview-quote-name {
+      font-family: 'Jost';
+      font-weight: 600;
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      color: white;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .preview-stat-number {
+      font-family: 'Jost';
+      font-weight: 800;
+      font-size: clamp(4rem, 20vw, 10rem);
+      color: white;
+      line-height: 0.9;
+      margin-bottom: 2rem;
+    }
+    .preview-stat-text {
+      font-family: 'Jost';
+      font-weight: 600;
+      font-size: clamp(1rem, 4vw, 1.5rem);
+      color: white;
+      line-height: 1.3;
+      max-width: 90%;
+    }
+    .preview-concept-text {
+      font-family: 'Jost';
+      font-weight: 600;
+      font-size: clamp(2rem, 8vw, 3.2rem);
+      color: #49016F;
+      line-height: 1.5;
+    }
+    .preview-image-text {
+      font-family: 'Jost';
+      font-weight: 600;
+      font-size: clamp(1.5rem, 6vw, 2.5rem);
+      text-align: center;
+      line-height: 1.4;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      max-width: 90%;
+    }
+    .gold-bar-fg {
+      position: absolute;
+      width: 100%;
+      height: 120px;
+      background: #C3A14E;
+      mix-blend-mode: multiply;
+    }
+    .button-group {
+      display: flex;
+      gap: 10px;
+    }
+    button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Jost', inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: #49016F;
+      color: white;
+    }
+    .btn-primary:hover {
+      background: #35004f;
+    }
+    .info-box {
+      background: #f9f9f9;
+      border-left: 4px solid #49016F;
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #555;
+      margin-top: 1.5rem;
+    }
+    .hidden {
+      display: none !important;
+    }
+    @media (max-width: 900px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+      .preview {
+        max-width: 500px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="controls">
+      <h1>Social Image Builder</h1>
+      
+      <div class="control-group">
+        <label>Template Type</label>
+        <select id="templateType">
+          <option value="quote">Quote</option>
+          <option value="stat">Statistic</option>
+          <option value="concept">Concept</option>
+          <option value="image">Image</option>
+        </select>
+      </div>
+
+      <!-- QUOTE -->
+      <div id="quote-controls" class="hidden">
+        <div class="control-group">
+          <label>Quote Text</label>
+          <textarea id="quoteText">If you don't know other languages you don't know your own.</textarea>
+          <div class="help-text">1–2 sentences</div>
+        </div>
+        <div class="control-group">
+          <label>Quote Text Size</label>
+          <div class="size-control">
+            <input type="range" id="quoteTextSize" min="1" max="5" step="0.1" value="3.2">
+            <span class="size-value" id="quoteTextSizeValue">3.2rem</span>
+          </div>
+        </div>
+        <div class="control-group">
+          <label>Attribution (name)</label>
+          <input type="text" id="quoteName" placeholder="GOETHE" value="GOETHE">
+          <div class="help-text">Will appear in all caps</div>
+        </div>
+      </div>
+
+      <!-- STAT -->
+      <div id="stat-controls" class="hidden">
+        <div class="control-group">
+          <label>Number</label>
+          <input type="text" id="statNumber" placeholder="7,000" value="7,000">
+          <div class="help-text">E.g. "7,000" or "48"</div>
+        </div>
+        <div class="control-group">
+          <label>Description</label>
+          <textarea id="statText">Languages in the world. 7,000 ships laden with worlds.</textarea>
+          <div class="help-text">1–2 lines</div>
+        </div>
+        <div class="control-group">
+          <label>Description Text Size</label>
+          <div class="size-control">
+            <input type="range" id="statTextSize" min="0.8" max="3" step="0.1" value="1.5">
+            <span class="size-value" id="statTextSizeValue">1.5rem</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONCEPT -->
+      <div id="concept-controls" class="hidden">
+        <div class="control-group">
+          <label>Concept Text</label>
+          <textarea id="conceptText">The Rose: Same flower, twelve different ways of seeing it. What perspectives are you missing?</textarea>
+          <div class="help-text">Will appear in deep purple</div>
+        </div>
+        <div class="control-group">
+          <label>Concept Text Size</label>
+          <div class="size-control">
+            <input type="range" id="conceptTextSize" min="1" max="5" step="0.1" value="3.2">
+            <span class="size-value" id="conceptTextSizeValue">3.2rem</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- IMAGE -->
+      <div id="image-controls" class="hidden">
+        <div class="control-group">
+          <label>Upload Image</label>
+          <input type="file" id="imageUpload" accept="image/*">
+          <div class="help-text">JPG, PNG, WebP</div>
+        </div>
+        <div class="control-group">
+          <label>Text Overlay (optional)</label>
+          <textarea id="imageText" placeholder="Add text here..."></textarea>
+          <div class="help-text">Leave blank for image only</div>
+        </div>
+        <div class="control-group">
+          <label>Text Overlay Size</label>
+          <div class="size-control">
+            <input type="range" id="imageTextSize" min="1" max="4" step="0.1" value="2.5">
+            <span class="size-value" id="imageTextSizeValue">2.5rem</span>
+          </div>
+        </div>
+        <div class="control-group">
+          <label>Text Colour</label>
+          <div class="color-palette">
+            <button class="color-btn active" data-color="#FFFFFF" data-type="imagetext" style="background: #FFFFFF; border: 1px solid #ddd;" title="White"></button>
+            <button class="color-btn" data-color="#49016F" data-type="imagetext" style="background: #49016F;" title="Deep Purple"></button>
+            <button class="color-btn" data-color="#DE0183" data-type="imagetext" style="background: #DE0183;" title="Magenta"></button>
+            <button class="color-btn" data-color="#C3A14E" data-type="imagetext" style="background: #C3A14E;" title="Gold"></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <strong>💡 Tip:</strong> Preview updates in real-time. Click "Download PNG" when ready.
+      </div>
+
+      <div class="button-group" style="margin-top: 1.5rem;">
+        <button class="btn-primary" onclick="downloadAsImage()">⬇️ Download PNG</button>
+      </div>
+    </div>
+
+    <div class="preview-container">
+      <div class="preview" id="preview">
+        <!-- Content rendered here -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentType = 'quote';
+    let imageTextColor = '#FFFFFF';
+    let uploadedImage = null;
+    let quoteTextSize = 3.2;
+    let statTextSize = 1.5;
+    let conceptTextSize = 3.2;
+    let imageTextSize = 2.5;
+
+    const typeSelect = document.getElementById('templateType');
+    const preview = document.getElementById('preview');
+
+    // Template inputs
+    const quoteText = document.getElementById('quoteText');
+    const quoteName = document.getElementById('quoteName');
+    const statNumber = document.getElementById('statNumber');
+    const statText = document.getElementById('statText');
+    const conceptText = document.getElementById('conceptText');
+    const imageUpload = document.getElementById('imageUpload');
+    const imageText = document.getElementById('imageText');
+    const colorButtons = document.querySelectorAll('.color-btn[data-type="imagetext"]');
+
+    // Type selection
+    typeSelect.addEventListener('change', (e) => {
+      currentType = e.target.value;
+      updateTemplateControls();
+      updatePreview();
+    });
+
+    // Input listeners
+    quoteText.addEventListener('input', updatePreview);
+    quoteName.addEventListener('input', updatePreview);
+    statNumber.addEventListener('input', updatePreview);
+    statText.addEventListener('input', updatePreview);
+    conceptText.addEventListener('input', updatePreview);
+    imageText.addEventListener('input', updatePreview);
+
+    // Font size sliders
+    document.getElementById('quoteTextSize').addEventListener('input', (e) => {
+      quoteTextSize = parseFloat(e.target.value);
+      document.getElementById('quoteTextSizeValue').textContent = quoteTextSize.toFixed(1) + 'rem';
+      updatePreview();
+    });
+
+    document.getElementById('statTextSize').addEventListener('input', (e) => {
+      statTextSize = parseFloat(e.target.value);
+      document.getElementById('statTextSizeValue').textContent = statTextSize.toFixed(1) + 'rem';
+      updatePreview();
+    });
+
+    document.getElementById('conceptTextSize').addEventListener('input', (e) => {
+      conceptTextSize = parseFloat(e.target.value);
+      document.getElementById('conceptTextSizeValue').textContent = conceptTextSize.toFixed(1) + 'rem';
+      updatePreview();
+    });
+
+    document.getElementById('imageTextSize').addEventListener('input', (e) => {
+      imageTextSize = parseFloat(e.target.value);
+      document.getElementById('imageTextSizeValue').textContent = imageTextSize.toFixed(1) + 'rem';
+      updatePreview();
+    });
+
+    // Image upload
+    imageUpload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          uploadedImage = event.target.result;
+          updatePreview();
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Image text color
+    colorButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        colorButtons.forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        imageTextColor = e.target.dataset.color;
+        updatePreview();
+      });
+    });
+
+    function updateTemplateControls() {
+      document.getElementById('quote-controls').classList.toggle('hidden', currentType !== 'quote');
+      document.getElementById('stat-controls').classList.toggle('hidden', currentType !== 'stat');
+      document.getElementById('concept-controls').classList.toggle('hidden', currentType !== 'concept');
+      document.getElementById('image-controls').classList.toggle('hidden', currentType !== 'image');
+    }
+
+    function updatePreview() {
+      preview.innerHTML = '';
+      preview.style.backgroundImage = 'none';
+
+      if (currentType === 'quote') {
+        preview.style.backgroundImage = `url('images/Quote-BG.png')`;
+        preview.style.backgroundSize = 'cover';
+        preview.style.backgroundPosition = 'center';
+        
+        const content = document.createElement('div');
+        content.className = 'preview-content';
+        content.innerHTML = `
+          <div class="preview-quote-text" style="font-size: ${quoteTextSize}rem;">${quoteText.value}</div>
+          <div class="preview-quote-name">${quoteName.value}</div>
+        `;
+        preview.appendChild(content);
+
+      } else if (currentType === 'stat') {
+        preview.style.backgroundImage = `url('images/Stat-BG.png')`;
+        preview.style.backgroundSize = 'cover';
+        preview.style.backgroundPosition = 'center';
+        
+        const content = document.createElement('div');
+        content.className = 'preview-content';
+        content.innerHTML = `
+          <div class="preview-stat-number">${statNumber.value}</div>
+          <div class="preview-stat-text" style="font-size: ${statTextSize}rem;">${statText.value}</div>
+        `;
+        preview.appendChild(content);
+
+      } else if (currentType === 'concept') {
+        preview.style.backgroundImage = `url('images/Concept-BG.png')`;
+        preview.style.backgroundSize = 'cover';
+        preview.style.backgroundPosition = 'center';
+        
+        const content = document.createElement('div');
+        content.className = 'preview-content';
+        content.innerHTML = `
+          <div class="preview-concept-text" style="font-size: ${conceptTextSize}rem;">${conceptText.value}</div>
+        `;
+        preview.appendChild(content);
+
+      } else if (currentType === 'image') {
+        // Set uploaded image as background
+        if (uploadedImage) {
+          preview.style.backgroundImage = `url('${uploadedImage}')`;
+          preview.style.backgroundSize = 'cover';
+          preview.style.backgroundPosition = 'center';
+        } else {
+          preview.style.background = '#000';
+        }
+
+        // Add Image-BG.png as foreground layer
+        const bgLayer = document.createElement('img');
+        bgLayer.src = 'images/Image-BG.png';
+        bgLayer.style.position = 'absolute';
+        bgLayer.style.width = '100%';
+        bgLayer.style.height = '100%';
+        bgLayer.style.objectFit = 'cover';
+        bgLayer.style.zIndex = '1';
+        preview.appendChild(bgLayer);
+
+        // Add text overlay if present
+        if (imageText.value) {
+          const textOverlay = document.createElement('div');
+          textOverlay.className = 'preview-content';
+          textOverlay.style.position = 'relative';
+          textOverlay.style.zIndex = '2';
+          textOverlay.innerHTML = `<div class="preview-image-text" style="color: ${imageTextColor}; font-size: ${imageTextSize}rem;">${imageText.value}</div>`;
+          preview.appendChild(textOverlay);
+        }
+      }
+    }
+
+    async function downloadAsImage() {
+      const canvas = await html2canvas(preview, {
+        width: 1080,
+        height: 1080,
+        scale: 2,
+        useCORS: true,
+        backgroundColor: null
+      });
+
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = `language-gateways-${currentType}-${Date.now()}.png`;
+      link.click();
+    }
+
+    // Initialize
+    updateTemplateControls();
+    updatePreview();
+  </script>
+</body>
+</html>
