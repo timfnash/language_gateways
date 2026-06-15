@@ -147,9 +147,12 @@ Each template includes a **font size slider**. The defaults below are the **cent
 | Template | Control | Default | Adjustable Range |
 |----------|---------|---------|------------------|
 | **Quote** | Quote Text Size | 3.2rem | 1.8–4.6rem |
-| **Stat** | Description Text Size | 1.5rem | 0.8–2.2rem |
+| **Stat** | Number Size | 750pt* | Dynamic (15vw) |
+| **Stat** | Description Text Size | 2rem | 1–2.9rem |
 | **Concept** | Concept Text Size | 3.2rem | 1.8–4.6rem |
 | **Image** | Text Overlay Size | 2.5rem | 1.3–3.7rem |
+
+*Stat number uses viewport-relative sizing for responsive scaling. Description uses adjustable rem slider.
 
 **Preview note:** The preview displays at 50% of the final export size (540×540px) for a less-cramped interface. Downloads are always 1080×1080px.
 
