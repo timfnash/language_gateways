@@ -575,11 +575,11 @@
     function addLogoAndHashtag() {
       // Define logo and positioning by template type
       const logoConfig = {
-        quote: { logo: 'LG-Words-Vibrant.png', logoPos: 'top: 15px; right: 25px;', hashtagPos: 'bottom: 25px; left: 25px;' },
-        stat: { logo: 'LG-Words-Dark.png', logoPos: 'top: 15px; left: 25px;', hashtagPos: 'bottom: 25px; right: 25px;' },
-        concept: { logo: 'LG-Words-Light.png', logoPos: 'top: 15px; left: 25px;', hashtagPos: 'bottom: 25px; right: 25px;' },
-        contrast: { logo: 'LG-Words-Vibrant.png', logoPos: 'top: 15px; right: 25px;', hashtagPos: 'bottom: 25px; left: 25px;' },
-        image: { logo: 'LG-Words-Dark.png', logoPos: 'top: 15px; left: 25px;', hashtagPos: 'bottom: 25px; right: 25px;' }
+        quote: { logo: 'LG-Words-Vibrant.png', logoPos: 'top: 15px; right: 25px;', hashtagPos: 'bottom: 25px; left: 25px;', hashtagColor: 'white' },
+        stat: { logo: 'LG-Words-Dark.png', logoPos: 'top: 15px; left: 25px;', hashtagPos: 'bottom: 25px; right: 25px;', hashtagColor: 'white' },
+        concept: { logo: 'LG-Words-Light.png', logoPos: 'top: 15px; left: 25px;', hashtagPos: 'bottom: 25px; right: 25px;', hashtagColor: '#49016F' },
+        contrast: { logo: 'LG-Words-Vibrant.png', logoPos: 'top: 15px; right: 25px;', hashtagPos: 'bottom: 25px; left: 25px;', hashtagColor: 'white' },
+        image: { logo: 'LG-Words-Dark.png', logoPos: 'top: 15px; left: 25px;', hashtagPos: 'bottom: 145px; right: 25px;', hashtagColor: 'white' }
       };
 
       const config = logoConfig[currentType];
@@ -596,7 +596,7 @@
       const hashtag = document.createElement('div');
       hashtag.className = 'preview-hashtag';
       hashtag.textContent = '#languagegateways';
-      hashtag.style.cssText = config.hashtagPos;
+      hashtag.style.cssText = `${config.hashtagPos}; color: ${config.hashtagColor};`;
       preview.appendChild(hashtag);
     }
 
@@ -725,40 +725,24 @@
         hashtags.forEach(hashtag => hashtag.remove());
       }
 
-      // Create temporary container for isolated capture
-      const container = document.createElement('div');
-      container.style.cssText = `
-        position: fixed;
-        left: -9999px;
-        top: -9999px;
-        width: 1080px;
-        height: 1080px;
-        overflow: hidden;
-        background: white;
-      `;
+      // Temporarily append clone off-screen
+      clone.style.position = 'fixed';
+      clone.style.left = '-9999px';
+      clone.style.top = '-9999px';
+      document.body.appendChild(clone);
 
-      // Scale clone to fit 1080x1080 (540px preview → 1080px output = 2x scale)
-      clone.style.cssText = `
-        width: 1080px;
-        height: 1080px;
-        transform: scale(2);
-        transform-origin: top left;
-      `;
-
-      container.appendChild(clone);
-      document.body.appendChild(container);
-
-      // Capture the container
-      const canvas = await html2canvas(container, {
+      // Capture at full 1080x1080 size using scale in html2canvas
+      const canvas = await html2canvas(clone, {
         width: 1080,
         height: 1080,
-        scale: 1,
+        scale: 2,
         useCORS: true,
-        backgroundColor: null
+        backgroundColor: null,
+        allowTaint: true
       });
 
       // Clean up
-      document.body.removeChild(container);
+      document.body.removeChild(clone);
 
       // Download
       const link = document.createElement('a');
