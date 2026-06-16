@@ -714,30 +714,42 @@
     }
 
     async function downloadAsImage(withLogo = true) {
-      let elementToCapture = preview;
-
-      // If downloading without logo, clone preview and remove logo/hashtag
+      // Clone the preview
+      const clone = preview.cloneNode(true);
+      
+      // If downloading without logo, remove logo and hashtag from clone
       if (!withLogo) {
-        elementToCapture = preview.cloneNode(true);
-        const logos = elementToCapture.querySelectorAll('.preview-logo');
-        const hashtags = elementToCapture.querySelectorAll('.preview-hashtag');
+        const logos = clone.querySelectorAll('.preview-logo');
+        const hashtags = clone.querySelectorAll('.preview-hashtag');
         logos.forEach(logo => logo.remove());
         hashtags.forEach(hashtag => hashtag.remove());
-        // Temporarily append to DOM for html2canvas to capture
-        elementToCapture.style.position = 'absolute';
-        elementToCapture.style.left = '-9999px';
-        document.body.appendChild(elementToCapture);
       }
 
-      // Store original dimensions
-      const originalWidth = elementToCapture.style.width;
-      const originalHeight = elementToCapture.style.height;
+      // Create temporary container for isolated capture
+      const container = document.createElement('div');
+      container.style.cssText = `
+        position: fixed;
+        left: -9999px;
+        top: -9999px;
+        width: 1080px;
+        height: 1080px;
+        overflow: hidden;
+        background: white;
+      `;
 
-      // Temporarily set to full 1080x1080 for capture
-      elementToCapture.style.width = '1080px';
-      elementToCapture.style.height = '1080px';
+      // Scale clone to fit 1080x1080 (540px preview → 1080px output = 2x scale)
+      clone.style.cssText = `
+        width: 1080px;
+        height: 1080px;
+        transform: scale(2);
+        transform-origin: top left;
+      `;
 
-      const canvas = await html2canvas(elementToCapture, {
+      container.appendChild(clone);
+      document.body.appendChild(container);
+
+      // Capture the container
+      const canvas = await html2canvas(container, {
         width: 1080,
         height: 1080,
         scale: 1,
@@ -745,15 +757,10 @@
         backgroundColor: null
       });
 
-      // Restore original dimensions
-      elementToCapture.style.width = originalWidth;
-      elementToCapture.style.height = originalHeight;
+      // Clean up
+      document.body.removeChild(container);
 
-      // Clean up cloned element if it was created
-      if (!withLogo) {
-        document.body.removeChild(elementToCapture);
-      }
-
+      // Download
       const link = document.createElement('a');
       link.href = canvas.toDataURL('image/png');
       const suffix = withLogo ? 'with-logo' : 'no-logo';
