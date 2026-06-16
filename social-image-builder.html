@@ -579,7 +579,7 @@
         stat: { logo: 'LG-Words-Dark.png', logoPos: 'top: 15px; left: 25px;', hashtagPos: 'bottom: 25px; right: 25px;', hashtagColor: 'white' },
         concept: { logo: 'LG-Words-Light.png', logoPos: 'top: 15px; left: 25px;', hashtagPos: 'bottom: 25px; right: 25px;', hashtagColor: '#49016F' },
         contrast: { logo: 'LG-Words-Vibrant.png', logoPos: 'top: 15px; right: 25px;', hashtagPos: 'bottom: 25px; left: 25px;', hashtagColor: 'white' },
-        image: { logo: 'LG-Words-Dark.png', logoPos: 'top: 15px; left: 25px;', hashtagPos: 'bottom: 145px; right: 25px;', hashtagColor: 'white' }
+        image: { logo: 'LG-Words-Dark.png', logoPos: 'top: 25px; left: 25px;', hashtagPos: 'bottom: 35px; right: 25px;', hashtagColor: 'white' }
       };
 
       const config = logoConfig[currentType];
@@ -725,16 +725,16 @@
         hashtags.forEach(hashtag => hashtag.remove());
       }
 
-      // Temporarily append clone off-screen
+      // Explicitly set clone dimensions (prevent max-width constraint)
+      clone.style.width = '540px';
+      clone.style.height = '540px';
       clone.style.position = 'fixed';
       clone.style.left = '-9999px';
       clone.style.top = '-9999px';
       document.body.appendChild(clone);
 
-      // Capture at full 1080x1080 size using scale in html2canvas
+      // Capture at 2x scale (540px → 1080px)
       const canvas = await html2canvas(clone, {
-        width: 1080,
-        height: 1080,
         scale: 2,
         useCORS: true,
         backgroundColor: null,
