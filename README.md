@@ -20,11 +20,12 @@ This repo holds the **branding assets** and **social media builder** for Languag
 
 **[→ Open the Builder](https://timfnash.github.io/language_gateways/language-gateways-builder.html)**
 
-A single, unified tool for creating on-brand social media posts. Choose from four template types:
+A single, unified tool for creating on-brand social media posts. Choose from five template types:
 
 - **Quote** — Inspirational or thought-provoking statements
 - **Statistic** — Impact numbers with supporting text
 - **Concept** — Conceptual insights or headline ideas
+- **Contrast** — Two complementary text fields on a split background
 - **Image** — Your image + optional text overlay
 
 All templates:
@@ -78,7 +79,7 @@ All templates:
 ### Quick Start
 
 1. **Open:** https://timfnash.github.io/language_gateways/language-gateways-builder.html
-2. **Select template type** from dropdown (Quote, Stat, Concept, or Image)
+2. **Select template type** from dropdown (Quote, Stat, Concept, Contrast, or Image)
 3. **Enter your content** (text, number, or upload image)
 4. **Adjust font sizes** with sliders if needed (defaults are pre-set and centered)
 5. **Download PNG** (1080×1080px, ready to post)
@@ -116,6 +117,24 @@ Use for:
 > The Rose: Same flower, twelve different ways of seeing it.  
 > What perspectives are you missing?
 
+#### Contrast
+Use for:
+- Language pairs or bilingual concepts
+- Comparative statements
+- Split-screen visual messaging
+
+**Structure:**
+- **Left half (purple)**: Top text + bottom text (centered horizontally)
+- **Right half (magenta)**: Top text + bottom text (centered horizontally)
+- Top text in each half is adjustable; bottom text (smaller, uppercase) is fixed
+- Both text pairs vertically centered in the image
+
+**Example:**
+Left: "Waiting" + "ENGLISH"  
+Right: "Espera" + "PORTUGUESE"
+
+Perfect for showing how concepts translate across languages, or comparing contrasting ideas.
+
 #### Image
 Use for:
 - Photos with optional text overlay
@@ -150,6 +169,7 @@ Each template includes a **font size slider**. The defaults below are the **cent
 | **Stat** | Number Size | 750pt* | Dynamic (15vw) |
 | **Stat** | Description Text Size | 2rem | 1–2.9rem |
 | **Concept** | Concept Text Size | 3.2rem | 1.8–4.6rem |
+| **Contrast** | Top & Bottom Text Size | 3.2rem | 1.8–4.6rem |
 | **Image** | Text Overlay Size | 2.5rem | 1.3–3.7rem |
 
 *Stat number uses viewport-relative sizing for responsive scaling. Description uses adjustable rem slider.
@@ -195,6 +215,7 @@ language_gateways/
     ├── Quote-BG.png                   ← Background for Quote template
     ├── Stat-BG.png                    ← Background for Stat template
     ├── Concept-BG.png                 ← Background for Concept template
+    ├── Contrast-BG.png                ← Background for Contrast template
     ├── Image-BG.png                   ← Foreground layer for Image template (gold bar)
     ├── LG-Words-Dark.png              ← Logo (Deep Purple)
     ├── LG-Words-Vibrant.png           ← Logo (Magenta)

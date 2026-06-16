@@ -218,6 +218,37 @@
       color: #49016F;
       line-height: 1.5;
     }
+    .preview-contrast-text {
+      font-family: 'Jost';
+      font-weight: 600;
+      color: white;
+      line-height: 1.5;
+      text-align: center;
+    }
+    .preview-contrast-top {
+      font-size: clamp(2rem, 8vw, 3.2rem);
+      margin-bottom: 2rem;
+    }
+    .preview-contrast-bottom {
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .contrast-half {
+      width: 50%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem;
+    }
+    .contrast-halves-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      position: absolute;
+    }
     .preview-image-text {
       font-family: 'Jost';
       font-weight: 600;
@@ -289,6 +320,7 @@
           <option value="quote">Quote</option>
           <option value="stat">Statistic</option>
           <option value="concept">Concept</option>
+          <option value="contrast">Contrast</option>
           <option value="image">Image</option>
         </select>
       </div>
@@ -351,6 +383,33 @@
         </div>
       </div>
 
+      <!-- CONTRAST -->
+      <div id="contrast-controls" class="hidden">
+        <div class="control-group">
+          <label>Top Left</label>
+          <textarea id="contrastTopText">Waiting</textarea>
+        </div>
+        <div class="control-group">
+          <label>Bottom Left</label>
+          <textarea id="contrastBottomText">ENGLISH</textarea>
+        </div>
+        <div class="control-group">
+          <label>Top Right</label>
+          <textarea id="contrastTopRightText">Espera</textarea>
+        </div>
+        <div class="control-group">
+          <label>Bottom Right</label>
+          <textarea id="contrastBottomRightText">PORTUGUESE</textarea>
+        </div>
+        <div class="control-group">
+          <label>Text Size</label>
+          <div class="size-control">
+            <input type="range" id="contrastTextSize" min="1.8" max="4.6" step="0.1" value="3.2">
+            <span class="size-value" id="contrastTextSizeValue">3.2rem</span>
+          </div>
+        </div>
+      </div>
+
       <!-- IMAGE -->
       <div id="image-controls" class="hidden">
         <div class="control-group">
@@ -404,6 +463,7 @@
     let quoteTextSize = 3.2;
     let statTextSize = 2;
     let conceptTextSize = 3.2;
+    let contrastTextSize = 3.2;
     let imageTextSize = 2.5;
 
     const typeSelect = document.getElementById('templateType');
@@ -415,6 +475,10 @@
     const statNumber = document.getElementById('statNumber');
     const statText = document.getElementById('statText');
     const conceptText = document.getElementById('conceptText');
+    const contrastTopText = document.getElementById('contrastTopText');
+    const contrastBottomText = document.getElementById('contrastBottomText');
+    const contrastTopRightText = document.getElementById('contrastTopRightText');
+    const contrastBottomRightText = document.getElementById('contrastBottomRightText');
     const imageUpload = document.getElementById('imageUpload');
     const imageText = document.getElementById('imageText');
     const colorButtons = document.querySelectorAll('.color-btn[data-type="imagetext"]');
@@ -432,6 +496,10 @@
     statNumber.addEventListener('input', updatePreview);
     statText.addEventListener('input', updatePreview);
     conceptText.addEventListener('input', updatePreview);
+    contrastTopText.addEventListener('input', updatePreview);
+    contrastBottomText.addEventListener('input', updatePreview);
+    contrastTopRightText.addEventListener('input', updatePreview);
+    contrastBottomRightText.addEventListener('input', updatePreview);
     imageText.addEventListener('input', updatePreview);
 
     // Font size sliders
@@ -450,6 +518,12 @@
     document.getElementById('conceptTextSize').addEventListener('input', (e) => {
       conceptTextSize = parseFloat(e.target.value);
       document.getElementById('conceptTextSizeValue').textContent = conceptTextSize.toFixed(1) + 'rem';
+      updatePreview();
+    });
+
+    document.getElementById('contrastTextSize').addEventListener('input', (e) => {
+      contrastTextSize = parseFloat(e.target.value);
+      document.getElementById('contrastTextSizeValue').textContent = contrastTextSize.toFixed(1) + 'rem';
       updatePreview();
     });
 
@@ -486,6 +560,7 @@
       document.getElementById('quote-controls').classList.toggle('hidden', currentType !== 'quote');
       document.getElementById('stat-controls').classList.toggle('hidden', currentType !== 'stat');
       document.getElementById('concept-controls').classList.toggle('hidden', currentType !== 'concept');
+      document.getElementById('contrast-controls').classList.toggle('hidden', currentType !== 'contrast');
       document.getElementById('image-controls').classList.toggle('hidden', currentType !== 'image');
     }
 
@@ -530,6 +605,34 @@
           <div class="preview-concept-text" style="font-size: ${conceptTextSize}rem;">${conceptText.value}</div>
         `;
         preview.appendChild(content);
+
+      } else if (currentType === 'contrast') {
+        preview.style.backgroundImage = `url('images/Contrast-BG.png')`;
+        preview.style.backgroundSize = 'cover';
+        preview.style.backgroundPosition = 'center';
+        
+        const container = document.createElement('div');
+        container.className = 'contrast-halves-container';
+        
+        // Left half
+        const leftHalf = document.createElement('div');
+        leftHalf.className = 'contrast-half';
+        leftHalf.innerHTML = `
+          <div class="preview-contrast-text preview-contrast-top" style="font-size: ${contrastTextSize}rem;">${contrastTopText.value}</div>
+          <div class="preview-contrast-text preview-contrast-bottom">${contrastBottomText.value}</div>
+        `;
+        container.appendChild(leftHalf);
+        
+        // Right half
+        const rightHalf = document.createElement('div');
+        rightHalf.className = 'contrast-half';
+        rightHalf.innerHTML = `
+          <div class="preview-contrast-text preview-contrast-top" style="font-size: ${contrastTextSize}rem;">${contrastTopRightText.value}</div>
+          <div class="preview-contrast-text preview-contrast-bottom">${contrastBottomRightText.value}</div>
+        `;
+        container.appendChild(rightHalf);
+        
+        preview.appendChild(container);
 
       } else if (currentType === 'image') {
         // Set uploaded image as background
