@@ -265,6 +265,21 @@
       background: #C3A14E;
       mix-blend-mode: multiply;
     }
+    .preview-logo {
+      position: absolute;
+      width: 100px;
+      height: auto;
+      z-index: 10;
+    }
+    .preview-hashtag {
+      position: absolute;
+      color: white;
+      font-family: 'Jost';
+      font-weight: 600;
+      font-size: 18px;
+      letter-spacing: 1px;
+      z-index: 10;
+    }
     .button-group {
       display: flex;
       gap: 10px;
@@ -445,7 +460,8 @@
       </div>
 
       <div class="button-group" style="margin-top: 1.5rem;">
-        <button class="btn-primary" onclick="downloadAsImage()">⬇️ Download PNG</button>
+        <button class="btn-primary" onclick="downloadAsImage(true)">⬇️ Download PNG</button>
+        <button class="btn-primary" onclick="downloadAsImage(false)">⬇️ Download without Logo</button>
       </div>
     </div>
 
@@ -556,7 +572,34 @@
       });
     });
 
-    function updateTemplateControls() {
+    function addLogoAndHashtag() {
+      // Define logo and positioning by template type
+      const logoConfig = {
+        quote: { logo: 'LG-Words-Vibrant.png', logoPos: 'top: 25px; right: 25px;', hashtagPos: 'bottom: 25px; left: 25px;' },
+        stat: { logo: 'LG-Words-Dark.png', logoPos: 'top: 25px; left: 25px;', hashtagPos: 'bottom: 25px; right: 25px;' },
+        concept: { logo: 'LG-Words-Light.png', logoPos: 'top: 25px; left: 25px;', hashtagPos: 'bottom: 25px; right: 25px;' },
+        contrast: { logo: 'LG-Words-Vibrant.png', logoPos: 'top: 25px; right: 25px;', hashtagPos: 'bottom: 25px; left: 25px;' },
+        image: { logo: 'LG-Words-Dark.png', logoPos: 'top: 25px; left: 25px;', hashtagPos: 'bottom: 25px; right: 25px;' }
+      };
+
+      const config = logoConfig[currentType];
+      if (!config) return;
+
+      // Add logo
+      const logo = document.createElement('img');
+      logo.src = `images/${config.logo}`;
+      logo.className = 'preview-logo';
+      logo.style.cssText = config.logoPos;
+      preview.appendChild(logo);
+
+      // Add hashtag
+      const hashtag = document.createElement('div');
+      hashtag.className = 'preview-hashtag';
+      hashtag.textContent = '#languagegateways';
+      hashtag.style.cssText = config.hashtagPos;
+      preview.appendChild(hashtag);
+    }
+
       document.getElementById('quote-controls').classList.toggle('hidden', currentType !== 'quote');
       document.getElementById('stat-controls').classList.toggle('hidden', currentType !== 'stat');
       document.getElementById('concept-controls').classList.toggle('hidden', currentType !== 'concept');
@@ -664,20 +707,56 @@
           preview.appendChild(textOverlay);
         }
       }
+
+      // Add logo and hashtag to preview
+      addLogoAndHashtag();
     }
 
-    async function downloadAsImage() {
-      const canvas = await html2canvas(preview, {
+    async function downloadAsImage(withLogo = true) {
+      let elementToCapture = preview;
+
+      // If downloading without logo, clone preview and remove logo/hashtag
+      if (!withLogo) {
+        elementToCapture = preview.cloneNode(true);
+        const logos = elementToCapture.querySelectorAll('.preview-logo');
+        const hashtags = elementToCapture.querySelectorAll('.preview-hashtag');
+        logos.forEach(logo => logo.remove());
+        hashtags.forEach(hashtag => hashtag.remove());
+        // Temporarily append to DOM for html2canvas to capture
+        elementToCapture.style.position = 'absolute';
+        elementToCapture.style.left = '-9999px';
+        document.body.appendChild(elementToCapture);
+      }
+
+      // Store original dimensions
+      const originalWidth = elementToCapture.style.width;
+      const originalHeight = elementToCapture.style.height;
+
+      // Temporarily set to full 1080x1080 for capture
+      elementToCapture.style.width = '1080px';
+      elementToCapture.style.height = '1080px';
+
+      const canvas = await html2canvas(elementToCapture, {
         width: 1080,
         height: 1080,
-        scale: 2,
+        scale: 1,
         useCORS: true,
         backgroundColor: null
       });
 
+      // Restore original dimensions
+      elementToCapture.style.width = originalWidth;
+      elementToCapture.style.height = originalHeight;
+
+      // Clean up cloned element if it was created
+      if (!withLogo) {
+        document.body.removeChild(elementToCapture);
+      }
+
       const link = document.createElement('a');
       link.href = canvas.toDataURL('image/png');
-      link.download = `language-gateways-${currentType}-${Date.now()}.png`;
+      const suffix = withLogo ? 'with-logo' : 'no-logo';
+      link.download = `language-gateways-${currentType}-${suffix}-${Date.now()}.png`;
       link.click();
     }
 

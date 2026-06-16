@@ -82,7 +82,29 @@ All templates:
 2. **Select template type** from dropdown (Quote, Stat, Concept, Contrast, or Image)
 3. **Enter your content** (text, number, or upload image)
 4. **Adjust font sizes** with sliders if needed (defaults are pre-set and centered)
-5. **Download PNG** (1080×1080px, ready to post)
+5. **Preview shows final version** with logo and hashtag
+6. **Download PNG** (1080×1080px, ready to post)
+
+### Download Options
+
+Two download buttons are available:
+
+- **Download PNG** — Includes logo + hashtag (#languagegateways)
+- **Download without Logo** — Clean version, logo and hashtag removed
+
+All downloads are 1080×1080px, ready for Instagram/Facebook.
+
+### Logo & Hashtag Placement
+
+The preview always shows the version with logo and hashtag. Placement varies by template:
+
+| Template | Logo | Logo Position | Hashtag Position |
+|----------|------|---------------|------------------|
+| **Quote** | Vibrant | Top right | Bottom left |
+| **Statistic** | Dark | Top left | Bottom right |
+| **Concept** | Light | Top left | Bottom right |
+| **Contrast** | Vibrant | Top right | Bottom left |
+| **Image** | Dark | Top left | Bottom right |
 
 ### Template Guide
 
