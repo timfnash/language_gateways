@@ -596,7 +596,10 @@
       const hashtag = document.createElement('div');
       hashtag.className = 'preview-hashtag';
       hashtag.textContent = '#languagegateways';
-      hashtag.style.cssText = `${config.hashtagPos}; color: ${config.hashtagColor};`;
+      
+      // Use selected text color for Image template, otherwise use config color
+      const hashtagColor = currentType === 'image' ? imageTextColor : config.hashtagColor;
+      hashtag.style.cssText = `${config.hashtagPos}; color: ${hashtagColor};`;
       preview.appendChild(hashtag);
     }
 
